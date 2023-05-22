@@ -23,5 +23,16 @@ namespace Business.Constants
         public static string ColorNotFound = "İstenilen renk bulunamadı. Lütfen geçerli bir renk numarası giriniz.";
 
 
+        public static string BrandAdded = "Marka eklendi";
+        public static string BrandDeleted = "Marka silindi";
+        public static string BrandUpdated = "Marka güncellendi";
+        public static string BrandListed = "Markalar listelendi";
+
+
+        public static string CustomerAdded = "Müşteri eklendi";
+        public static string CustomerDeleted = "Müşteri silindi";
+        public static string CustomerUpdated = "Müşteri güncellendi";
+        public static string CustomerListed = "Müşteri listelendi";
+
     }
 }
