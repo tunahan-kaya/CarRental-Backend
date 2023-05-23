@@ -11,9 +11,9 @@ namespace ReCapProject
     {
         static void Main(string[] args)
         {
-            CarTest();
+            //CarTest();
             //ColorTest();
-            //BrandTest();
+            BrandTest();
             
         }
         private static void BrandTest()
