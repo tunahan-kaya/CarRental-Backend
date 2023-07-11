@@ -10,6 +10,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities.Concrete;
+using User = Core.Entities.Concrete.User;
 
 namespace Business.Concrete
 {
@@ -22,28 +24,20 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        [ValidationAspect(typeof(UserValidator))]
-        public IResult Add(User user)
+
+        public List<OperationClaim> GetClaims(User user)
         {
-            _userDal.Add(user);
-            return new SuccessResult();
+            return _userDal.GetClaims(user);
         }
 
-        public IResult Delete(User user)
+        public void Add(User user)
         {
-            _userDal.Delete(user);
-            return new SuccessResult();
+             _userDal.Add(user);
         }
 
-        public IDataResult<List<User>> GetAll()
+        public User GetByMail(string email)
         {
-            return new SuccessDataResult<List<User>>(_userDal.GetAll());
-        }
-
-        public IResult Update(User user)
-        {
-            _userDal.Update(user);
-            return new SuccessResult();
+            return _userDal.Get(u => u.Email == email);
         }
     }
 }
