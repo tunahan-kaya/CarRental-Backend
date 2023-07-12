@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Aspects.Autofac.Performance;
 
 namespace Core.Utilities.Interceptors
 {
+    [PerformanceAspect(5)]
     public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {
         protected virtual void OnBefore(IInvocation invocation) { }

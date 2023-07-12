@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Aspects.Autofac.Caching;
 
 namespace Business.Concrete
 {
@@ -25,6 +26,7 @@ namespace Business.Concrete
             _carDal=carDal;
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
@@ -38,7 +40,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
             
         }
-
+        [CacheAspect()]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);
