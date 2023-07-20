@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -33,6 +34,11 @@ namespace Business.Concrete
         {
             _rentalDal.Delete(rental);
             return new SuccessResult();
+        }
+
+        public IDataResult<List<RentalsDto>> GetRentalDetails()
+        {
+            return new SuccessDataResult<List<RentalsDto>>(_rentalDal.GetRentalDetails());
         }
 
         public IDataResult<List<Rental>> GetAll()
