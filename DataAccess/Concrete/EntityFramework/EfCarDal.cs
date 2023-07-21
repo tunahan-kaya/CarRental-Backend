@@ -16,15 +16,43 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<CarDetailDto> GetCarDetails()
         {
-            using (ReCapContext context=new ReCapContext())
+            using (ReCapContext context = new ReCapContext())
             {
                 var result = from car in context.Cars
-                             join color in context.Colors on car.ColorId equals color.ColorId
-                             join brand in context.Brands on car.BrandId equals brand.BrandId
-                             select new CarDetailDto
-                             {
-                                 CarId=car.CarId,CarName=car.CarName,ColorName=color.ColorName,BrandName=brand.BrandName,DailyPrice=car.DailyPrice
-                             };
+                    join color in context.Colors on car.ColorId equals color.ColorId
+                    join brand in context.Brands on car.BrandId equals brand.BrandId
+                    join carImage in context.CarImages on car.CarId equals carImage.CarId
+                    select new CarDetailDto
+                    {
+                        CarId = car.CarId,
+                        CarName = car.CarName,
+                        ColorName = color.ColorName,
+                        BrandName = brand.BrandName,
+                        DailyPrice = car.DailyPrice,
+                        CarImage = carImage.ImagePath
+                    };
+                return result.ToList();
+            }
+        }
+
+        public List<CarDetailDto> GetCarDetailsDtoByBrandId(int id)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                var result = from car in context.Cars
+                    join color in context.Colors on car.ColorId equals color.ColorId
+                    join brand in context.Brands on car.BrandId equals brand.BrandId
+                    join carImage in context.CarImages on car.CarId equals carImage.CarId
+                    where brand.BrandId == id
+                    select new CarDetailDto()
+                    {
+                        CarId = car.CarId,
+                        CarName = car.CarName,
+                        ColorName = color.ColorName,
+                        BrandName = brand.BrandName,
+                       CarImage = carImage.ImagePath,
+                        DailyPrice = car.DailyPrice
+                    };
                 return result.ToList();
             }
         }
