@@ -5,6 +5,7 @@ using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -79,7 +80,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsDtoById(int id)
+        public CarDetailDto GetCarDetailsDtoById(int id)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -97,8 +98,33 @@ namespace DataAccess.Concrete.EntityFramework
                         CarImage = carImage.ImagePath,
                         DailyPrice = car.DailyPrice
                     };
-                return result.ToList();
+                return result.ToList().SingleOrDefault();
             }
+        }
+
+        public List<CarDetailDto> GetCarDetailByBrandAndColorId(int colorId, int brandId)
+        {
+           
+                using (ReCapContext context = new ReCapContext())
+                {
+                    var result = from car in context.Cars
+                        join Color in context.Colors on car.ColorId equals Color.ColorId
+                        join brand in context.Brands on car.BrandId equals brand.BrandId
+                        join carImage in context.CarImages on car.CarId equals carImage.CarId
+                        where car.ColorId == colorId & car.BrandId == brandId
+                        select new CarDetailDto()
+                        {
+                            CarId = car.CarId,
+                            CarName = car.CarName,
+                            ColorName = Color.ColorName,
+                            BrandName = brand.BrandName,
+                            CarImage = carImage.ImagePath,
+                            DailyPrice = car.DailyPrice
+                        };
+                    return result.ToList();
+
+                }
+            
         }
     }
 }

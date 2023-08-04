@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.BusinessRules;
 using Entities.DTOs;
 
 namespace Business.Concrete
@@ -22,7 +23,10 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            if (rental.RentDate==null)
+            IResult result = BusinessRules.Run(
+                checkIfCarAvailableForRent(rental.CarId)
+                );
+            if (!result.Success)
             {
                 return new ErrorResult();
             }
@@ -49,6 +53,18 @@ namespace Business.Concrete
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
+            return new SuccessResult();
+        }
+
+
+        private IResult checkIfCarAvailableForRent(int carId)
+        {
+            var result = _rentalDal.GetAll(c => c.CarId == carId).Any();
+            if (result ==true)
+            {
+                return new ErrorResult();
+            }
+
             return new SuccessResult();
         }
     }
